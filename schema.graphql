@@ -6,6 +6,9 @@ type Query {
 
   meals: [meal]
   meal(meal: Umeal!): meal
+
+  instances: [instance]
+  instance(instance: Uinstance!): instance
 }
 
 type Mutation {
@@ -13,6 +16,7 @@ type Mutation {
 
   tables: tableMutations
   meals: mealMutations
+  instances: instanceMutations
 }
 
 # table stuff
@@ -72,4 +76,29 @@ type mealMutations{
   update(meal: Umeal!): meal
   archive(meal: Umeal!): meal
   restore(meal: Umeal!): meal
+}
+
+# instance stuff
+type instance{
+  id: String
+  meal: meal
+  amount: Int
+}
+
+input Iinstance{
+  meal: String!
+  amount: Int!
+}
+
+input Uinstance{
+  id: String!
+  meal: String
+  amount: Int
+}
+
+type instanceMutations{
+  create(instance: Iinstance!): instance
+  update(instance: Uinstance!): instance
+  archive(instance: Uinstance!): instance
+  restore(instance: Uinstance!): instance
 }

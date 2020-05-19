@@ -9,12 +9,19 @@ import {
   nested as Nmeal
 } from "./meals"
 
+import {
+  list as instances,
+  single as instance,
+  nested as Ninstance
+} from "./instances"
+
 const nested = {};
 
 Object.assign(
   nested,
 
-  Nmeal
+  Nmeal,
+  Ninstance
 )
 
 const Query = {
@@ -24,7 +31,10 @@ const Query = {
   table,
 
   meals,
-  meal
+  meal,
+
+  instances,
+  instance
 }
 
 export {

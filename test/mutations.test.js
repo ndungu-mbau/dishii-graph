@@ -301,3 +301,124 @@ describe("Meals", () => {
       })
   })
 })
+
+describe("Meal Instances", () => {
+  it("should make a instance", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($instance: Iinstance!){
+          instances{
+            create(instance: $instance){
+              id
+            }
+          }
+        }`,
+        variables: {
+          instance: {
+            meal: sharedInfo.mealId,
+            amount: 3
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.instances.create.id).to.be.a("string")
+
+        sharedInfo.instanceId = res.body.data.instances.create.id
+        done()
+      })
+  })
+
+  it("should update a instance", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($instance: Uinstance!){
+          instances{
+            update(instance: $instance){
+              id
+            }
+          }
+        }`,
+        variables: {
+          instance: {
+            id: sharedInfo.instanceId,
+            amount: 4,
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.instances.update.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should archive a instance", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($instance: Uinstance!){
+          instances{
+            archive(instance: $instance){
+              id
+            }
+          }
+        }`,
+        variables: {
+          instance: {
+            id: sharedInfo.instanceId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.instances.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a instance", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($instance: Uinstance!){
+          instances{
+            restore(instance: $instance){
+              id
+            }
+          }
+        }`,
+        variables: {
+          instance: {
+            id: sharedInfo.instanceId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.instances.restore.id).to.be.a("string")
+        
+        done()
+      })
+  })
+})
