@@ -2,9 +2,13 @@ import Waterline from "waterline"
 import DiskAdapter from "sails-disk"
 import MongoAdapter from "sails-mongo"
 
+import table from "./graphql/resolvers/Mutation/tables/model"
+
 const { NODE_ENV, DB_URL } = process.env
 
 var waterline = new Waterline()
+
+waterline.registerModel(table)
 
 var config = {
   adapters: {

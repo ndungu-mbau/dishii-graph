@@ -56,3 +56,125 @@ describe("Hello", () => {
       })
   })
 })
+
+describe("Tables", () => {
+  it("should make a table", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($table: Itable!){
+          tables{
+            create(table: $table){
+              id
+            }
+          }
+        }`,
+        variables: {
+          table: {
+            seats: 4,
+            device: "device-id-001",
+            number: 15
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.tables.create.id).to.be.a("string")
+
+        sharedInfo.tableId = res.body.data.tables.create.id
+        done()
+      })
+  })
+
+  it("should update a table", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($table: Utable!){
+          tables{
+            update(table: $table){
+              id
+            }
+          }
+        }`,
+        variables: {
+          table: {
+            id: sharedInfo.tableId,
+            seats: 6,
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.tables.update.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should archive a table", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($table: Utable!){
+          tables{
+            archive(table: $table){
+              id
+            }
+          }
+        }`,
+        variables: {
+          table: {
+            id: sharedInfo.tableId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.tables.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a table", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($table: Utable!){
+          tables{
+            restore(table: $table){
+              id
+            }
+          }
+        }`,
+        variables: {
+          table: {
+            id: sharedInfo.tableId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.tables.restore.id).to.be.a("string")
+        
+        done()
+      })
+  })
+})

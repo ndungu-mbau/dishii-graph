@@ -1,3 +1,7 @@
+import tables from "./tables"
+
 export default {
-  hello:() => "Hello mutations"
+  hello:() => "Hello mutations",
+
+  tables
 }

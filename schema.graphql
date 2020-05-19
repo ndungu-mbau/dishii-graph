@@ -1,7 +1,40 @@
 type Query {
   hello: String
+
+  tables: [table]
+  table(table: Utable!): table
 }
 
 type Mutation {
   hello: String
+
+  tables: tableMutations
+}
+
+# table stuff
+type table{
+  id: String
+  seats: Int
+  device: String
+  number: Int
+}
+
+input Itable{
+  seats: Int!
+  device: String!
+  number: Int!
+}
+
+input Utable{
+  id: String!
+  seats: Int
+  device: String
+  number: Int
+}
+
+type tableMutations{
+  create(table: Itable!): table
+  update(table: Utable!): table
+  archive(table: Utable!): table
+  restore(table: Utable!): table
 }
