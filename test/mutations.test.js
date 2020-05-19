@@ -439,7 +439,7 @@ describe("Orders", () => {
         }`,
         variables: {
           order: {
-            meals: [sharedInfo.mealId],
+            meals: [sharedInfo.instanceId],
             total: 3000
           }
         }

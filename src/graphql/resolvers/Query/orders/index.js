@@ -31,7 +31,7 @@ const nested = {
   [name]: {
     meals: async (root, args, { db: { collections }}) => {
       const ids = root.meals.split(",")
-      const entries = Promise.all(ids.map(async id => await collections["instances"].findOne({ where: { id }})))
+      const entries = Promise.all(ids.map(async id => await collections["instance"].findOne({ where: { id }})))
       return entries
     }
   }
