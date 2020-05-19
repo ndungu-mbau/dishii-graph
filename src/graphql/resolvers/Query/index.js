@@ -15,13 +15,21 @@ import {
   nested as Ninstance
 } from "./instances"
 
+import {
+  list as orders,
+  single as order,
+  nested as Norder
+} from "./orders"
+
+
 const nested = {};
 
 Object.assign(
   nested,
 
   Nmeal,
-  Ninstance
+  Ninstance,
+  Norder
 )
 
 const Query = {
@@ -34,7 +42,10 @@ const Query = {
   meal,
 
   instances,
-  instance
+  instance,
+
+  orders,
+  order
 }
 
 export {

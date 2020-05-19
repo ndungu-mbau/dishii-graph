@@ -5,6 +5,7 @@ import MongoAdapter from "sails-mongo"
 import table from "./graphql/resolvers/Mutation/tables/model"
 import meal from "./graphql/resolvers/Mutation/meals/model"
 import instance from "./graphql/resolvers/Mutation/instances/model"
+import order from "./graphql/resolvers/Mutation/orders/model"
 
 const { NODE_ENV, DB_URL } = process.env
 
@@ -13,6 +14,7 @@ var waterline = new Waterline()
 waterline.registerModel(table)
 waterline.registerModel(meal)
 waterline.registerModel(instance)
+waterline.registerModel(order)
 
 var config = {
   adapters: {

@@ -9,6 +9,9 @@ type Query {
 
   instances: [instance]
   instance(instance: Uinstance!): instance
+
+  orders: [order]
+  order(order: Uorder!): order
 }
 
 type Mutation {
@@ -17,6 +20,7 @@ type Mutation {
   tables: tableMutations
   meals: mealMutations
   instances: instanceMutations
+  orders: orderMutations
 }
 
 # table stuff
@@ -101,4 +105,29 @@ type instanceMutations{
   update(instance: Uinstance!): instance
   archive(instance: Uinstance!): instance
   restore(instance: Uinstance!): instance
+}
+
+# order stuff
+type order{
+  id: String
+  meals: [instance]
+  total: Float
+}
+
+input Iorder{
+  meals: [String]!
+  total: Float!
+}
+
+input Uorder{
+  id: String!
+  meals: [String]
+  total: Float
+}
+
+type orderMutations{
+  create(order: Iorder!): order
+  update(order: Uorder!): order
+  archive(order: Uorder!): order
+  restore(order: Uorder!): order
 }
