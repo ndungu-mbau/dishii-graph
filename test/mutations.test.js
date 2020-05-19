@@ -173,6 +173,129 @@ describe("Tables", () => {
 
         expect(res.body).to.be.an("object")
         expect(res.body.data.tables.restore.id).to.be.a("string")
+
+        done()
+      })
+  })
+})
+
+describe("Meals", () => {
+  it("should make a meal", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($meal: Imeal!){
+          meals{
+            create(meal: $meal){
+              id
+            }
+          }
+        }`,
+        variables: {
+          meal: {
+            name: "KFC Streetwise 1",
+            items: ["Spicy fried chicken", "French fries side"],
+            img: "http://localhost/images/kfc-streetwise-1.png",
+            price: 399.00
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.meals.create.id).to.be.a("string")
+
+        sharedInfo.mealId = res.body.data.meals.create.id
+        done()
+      })
+  })
+
+  it("should update a meal", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($meal: Umeal!){
+          meals{
+            update(meal: $meal){
+              id
+            }
+          }
+        }`,
+        variables: {
+          meal: {
+            id: sharedInfo.mealId,
+            name: "Streetwise One by KFC",
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.meals.update.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should archive a meal", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($meal: Umeal!){
+          meals{
+            archive(meal: $meal){
+              id
+            }
+          }
+        }`,
+        variables: {
+          meal: {
+            id: sharedInfo.mealId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.meals.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a meal", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($meal: Umeal!){
+          meals{
+            restore(meal: $meal){
+              id
+            }
+          }
+        }`,
+        variables: {
+          meal: {
+            id: sharedInfo.mealId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.meals.restore.id).to.be.a("string")
         
         done()
       })

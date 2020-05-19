@@ -3,12 +3,14 @@ import DiskAdapter from "sails-disk"
 import MongoAdapter from "sails-mongo"
 
 import table from "./graphql/resolvers/Mutation/tables/model"
+import meal from "./graphql/resolvers/Mutation/meals/model"
 
 const { NODE_ENV, DB_URL } = process.env
 
 var waterline = new Waterline()
 
 waterline.registerModel(table)
+waterline.registerModel(meal)
 
 var config = {
   adapters: {

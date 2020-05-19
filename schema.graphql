@@ -3,12 +3,16 @@ type Query {
 
   tables: [table]
   table(table: Utable!): table
+
+  meals: [meal]
+  meal(meal: Umeal!): meal
 }
 
 type Mutation {
   hello: String
 
   tables: tableMutations
+  meals: mealMutations
 }
 
 # table stuff
@@ -37,4 +41,35 @@ type tableMutations{
   update(table: Utable!): table
   archive(table: Utable!): table
   restore(table: Utable!): table
+}
+
+# meal stuff
+type meal{
+  id: String
+  name: String
+  items: [String]
+  img: String
+  price: Float
+}
+
+input Imeal{
+  name: String!
+  items: [String]!
+  img: String!
+  price: Float!
+}
+
+input Umeal{
+  id: String!
+  name: String
+  items: [String]
+  img: String
+  price: Float
+}
+
+type mealMutations{
+  create(meal: Imeal!): meal
+  update(meal: Umeal!): meal
+  archive(meal: Umeal!): meal
+  restore(meal: Umeal!): meal
 }
