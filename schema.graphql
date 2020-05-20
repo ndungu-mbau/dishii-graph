@@ -86,17 +86,20 @@ type mealMutations{
 type instance{
   id: String
   meal: meal
+  order: order
   amount: Int
 }
 
 input Iinstance{
   meal: String!
+  order: String!
   amount: Int!
 }
 
 input Uinstance{
   id: String!
   meal: String
+  order: String
   amount: Int
 }
 
@@ -110,24 +113,17 @@ type instanceMutations{
 # order stuff
 type order{
   id: String
+  number: Int
   meals: [instance]
   total: Float
 }
 
-input Iorder{
-  meals: [String]!
-  total: Float!
-}
-
 input Uorder{
   id: String!
-  meals: [String]
-  total: Float
 }
 
 type orderMutations{
-  create(order: Iorder!): order
-  update(order: Uorder!): order
+  create: order
   archive(order: Uorder!): order
   restore(order: Uorder!): order
 }

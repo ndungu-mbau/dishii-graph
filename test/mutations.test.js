@@ -302,6 +302,91 @@ describe("Meals", () => {
   })
 })
 
+describe("Orders", () => {
+  it("should make a order", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation{
+          orders{
+            create{
+              id
+            }
+          }
+        }`
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.orders.create.id).to.be.a("string")
+
+        sharedInfo.orderId = res.body.data.orders.create.id
+        done()
+      })
+  })
+
+  it("should archive a order", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($order: Uorder!){
+          orders{
+            archive(order: $order){
+              id
+            }
+          }
+        }`,
+        variables: {
+          order: {
+            id: sharedInfo.orderId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.orders.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a order", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($order: Uorder!){
+          orders{
+            restore(order: $order){
+              id
+            }
+          }
+        }`,
+        variables: {
+          order: {
+            id: sharedInfo.orderId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.orders.restore.id).to.be.a("string")
+        
+        done()
+      })
+  })
+})
+
 describe("Meal Instances", () => {
   it("should make a instance", done => {
     chai
@@ -319,6 +404,7 @@ describe("Meal Instances", () => {
         variables: {
           instance: {
             meal: sharedInfo.mealId,
+            order: sharedInfo.orderId,
             amount: 3
           }
         }
@@ -417,127 +503,6 @@ describe("Meal Instances", () => {
 
         expect(res.body).to.be.an("object")
         expect(res.body.data.instances.restore.id).to.be.a("string")
-        
-        done()
-      })
-  })
-})
-
-describe("Orders", () => {
-  it("should make a order", done => {
-    chai
-      .request(app)
-      .post("/graph")
-      .set("content-type", "application/json")
-      .send({
-        query: `mutation($order: Iorder!){
-          orders{
-            create(order: $order){
-              id
-            }
-          }
-        }`,
-        variables: {
-          order: {
-            meals: [sharedInfo.instanceId],
-            total: 3000
-          }
-        }
-      })
-      .end((err, res) => {
-        res.should.have.status(200)
-
-        expect(res.body).to.be.an("object")
-        expect(res.body.data.orders.create.id).to.be.a("string")
-
-        sharedInfo.orderId = res.body.data.orders.create.id
-        done()
-      })
-  })
-
-  it("should update a order", done => {
-    chai
-      .request(app)
-      .post("/graph")
-      .set("content-type", "application/json")
-      .send({
-        query: `mutation($order: Uorder!){
-          orders{
-            update(order: $order){
-              id
-            }
-          }
-        }`,
-        variables: {
-          order: {
-            id: sharedInfo.orderId,
-            total: 4000,
-          }
-        }
-      })
-      .end((err, res) => {
-        res.should.have.status(200)
-
-        expect(res.body).to.be.an("object")
-        expect(res.body.data.orders.update.id).to.be.a("string")
-
-        done()
-      })
-  })
-
-  it("should archive a order", done => {
-    chai
-      .request(app)
-      .post("/graph")
-      .set("content-type", "application/json")
-      .send({
-        query: `mutation($order: Uorder!){
-          orders{
-            archive(order: $order){
-              id
-            }
-          }
-        }`,
-        variables: {
-          order: {
-            id: sharedInfo.orderId
-          }
-        }
-      })
-      .end((err, res) => {
-        res.should.have.status(200)
-
-        expect(res.body).to.be.an("object")
-        expect(res.body.data.orders.archive.id).to.be.a("string")
-
-        done()
-      })
-  })
-
-  it("should restore a order", done => {
-    chai
-      .request(app)
-      .post("/graph")
-      .set("content-type", "application/json")
-      .send({
-        query: `mutation($order: Uorder!){
-          orders{
-            restore(order: $order){
-              id
-            }
-          }
-        }`,
-        variables: {
-          order: {
-            id: sharedInfo.orderId
-          }
-        }
-      })
-      .end((err, res) => {
-        res.should.have.status(200)
-
-        expect(res.body).to.be.an("object")
-        expect(res.body.data.orders.restore.id).to.be.a("string")
         
         done()
       })

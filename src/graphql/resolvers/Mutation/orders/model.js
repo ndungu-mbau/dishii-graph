@@ -8,8 +8,7 @@ export default Waterline.Collection.extend({
 
   attributes: {
     id: { type: "string", required: true },
-    meals: { type: "string", required: true },
-    total : { type: "number", required: true },
+    number: { type: "number", required: true },
     isDeleted: { type: "boolean", defaultsTo: false }
 
   }

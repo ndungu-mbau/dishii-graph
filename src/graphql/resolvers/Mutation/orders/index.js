@@ -1,11 +1,13 @@
 import { ObjectId } from "mongodb"
+import random from "randomatic"
 const { name } = require("./about")
 
 const { UserError } = require("graphql-errors");
 
 const create = async (data, { db: { collections }}) => {
   const id = new ObjectId().toHexString();
-  const entry = Object.assign(data[name], { id, isDeleted: false, meals: data[name].meals.join(",") });
+  const number = random('0', 8)
+  const entry = { id, isDeleted: false, number }
 
   try {
     await collections[name].create(entry)

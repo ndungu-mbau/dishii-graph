@@ -32,6 +32,10 @@ const nested = {
     meal: async (root, args, { db: { collections }}) => {
       const entry =  await collections["meal"].findOne({ where: { id: root.meal }})
       return entry
+    },
+    order: async (root, args, { db: { collections }}) => {
+      const entry =  await collections["order"].findOne({ where: { id: root.order }})
+      return entry
     }
   }
 }

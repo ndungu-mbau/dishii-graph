@@ -18,7 +18,7 @@ const create = async (data, { db: { collections }}) => {
 
 const update = async (data, { db: { collections } }) => {
   const { id } = data[name];
-  const entry = Object.assign({}, data[name], { items: data[name].items && data[name].items.join(",") });
+  const entry = Object.assign({}, data[name]);
 
   try {
     delete entry.id;

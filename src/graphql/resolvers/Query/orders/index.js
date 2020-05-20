@@ -30,9 +30,16 @@ const single = async (root, args, { db: { collections } }) => {
 const nested = {
   [name]: {
     meals: async (root, args, { db: { collections }}) => {
-      const ids = root.meals.split(",")
-      const entries = Promise.all(ids.map(async id => await collections["instance"].findOne({ where: { id }})))
+      const entries = await collections["instance"].find({ where: { order: root.id }})
       return entries
+    },
+    total: async (root, args, { db: { collections }}) => {
+      console.log(root)
+      const instances = await collections["instance"].find({ where: { order: root.id }})
+      const meals = await Promise.all(instances.map(async ({ meal: id }) => await collections["meal"].findOne({ where: { id }})))
+      console.log(meals)
+      const total = meals.reduce((acc, { price }) => acc + price, 0)
+      return total
     }
   }
 }
