@@ -34,11 +34,9 @@ const nested = {
       return entries
     },
     total: async (root, args, { db: { collections }}) => {
-      console.log(root)
       const instances = await collections["instance"].find({ where: { order: root.id }})
       const meals = await Promise.all(instances.map(async ({ meal: id }) => await collections["meal"].findOne({ where: { id }})))
-      console.log(meals)
-      const total = meals.reduce((acc, { price }) => acc + price, 0)
+      const total = meals.reduce((acc, { price }, i) => acc + price * instances[i].amount, 0)
       return total
     }
   }
