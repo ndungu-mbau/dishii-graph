@@ -302,6 +302,126 @@ describe("Meals", () => {
   })
 })
 
+describe("Sessions", () => {
+  it("should make a session", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($session: Isession!){
+          sessions{
+            create(session: $session){
+              id
+            }
+          }
+        }`,
+        variables: {
+          session: {
+            table: sharedInfo.tableId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.sessions.create.id).to.be.a("string")
+
+        sharedInfo.sessionId = res.body.data.sessions.create.id
+        done()
+      })
+  })
+
+  it("should update a session", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($session: Usession!){
+          sessions{
+            update(session: $session){
+              id
+            }
+          }
+        }`,
+        variables: {
+          session: {
+            id: sharedInfo.sessionId,
+            end_time: new Date().toLocaleString(),
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.sessions.update.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should archive a session", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($session: Usession!){
+          sessions{
+            archive(session: $session){
+              id
+            }
+          }
+        }`,
+        variables: {
+          session: {
+            id: sharedInfo.sessionId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.sessions.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a session", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($session: Usession!){
+          sessions{
+            restore(session: $session){
+              id
+            }
+          }
+        }`,
+        variables: {
+          session: {
+            id: sharedInfo.sessionId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.sessions.restore.id).to.be.a("string")
+        
+        done()
+      })
+  })
+})
+
 describe("Orders", () => {
   it("should make a order", done => {
     chai
@@ -309,13 +429,18 @@ describe("Orders", () => {
       .post("/graph")
       .set("content-type", "application/json")
       .send({
-        query: `mutation{
+        query: `mutation($order: Iorder!){
           orders{
-            create{
+            create(order: $order){
               id
             }
           }
-        }`
+        }`,
+        variables: {
+          order: {
+            session: sharedInfo.sessionId
+          }
+        }
       })
       .end((err, res) => {
         res.should.have.status(200)

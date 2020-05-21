@@ -12,6 +12,9 @@ type Query {
 
   orders: [order]
   order(order: Uorder!): order
+
+  sessions: [session]
+  session(session: Usession!): session
 }
 
 type Mutation {
@@ -21,6 +24,7 @@ type Mutation {
   meals: mealMutations
   instances: instanceMutations
   orders: orderMutations
+  sessions: sessionMutations
 }
 
 # table stuff
@@ -115,15 +119,48 @@ type order{
   id: String
   number: Int
   meals: [instance]
+  session: session
   total: Float
+}
+
+input Iorder{
+  session: String!
 }
 
 input Uorder{
   id: String!
+  session: String
 }
 
 type orderMutations{
-  create: order
+  create(order: Iorder!): order
   archive(order: Uorder!): order
   restore(order: Uorder!): order
+}
+
+# session stuff
+type session{
+  id: String
+  start_time: String
+  end_time: String
+  table: table
+  orders: [order]
+  # bill: bill
+}
+
+input Isession{
+  table: String!
+}
+
+input Usession{
+  id: String!
+  table: String
+  end_time: String
+}
+
+type sessionMutations{
+  create(session: Isession!): session
+  update(session: Usession!): session
+  archive(session: Usession!): session
+  restore(session: Usession!): session
 }

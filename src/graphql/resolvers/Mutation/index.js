@@ -2,6 +2,7 @@ import tables from "./tables"
 import meals from "./meals"
 import instances from "./instances"
 import orders from "./orders"
+import sessions from "./sessions"
 
 export default {
   hello:() => "Hello mutations",
@@ -9,5 +10,6 @@ export default {
   tables,
   meals,
   instances,
-  orders
+  orders,
+  sessions
 }
