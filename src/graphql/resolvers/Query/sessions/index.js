@@ -32,6 +32,10 @@ const nested = {
     table: async (root, args, { db: { collections }}) => {
       const entry = await collections["table"].findOne({ where: { id: root.table }})
       return entry
+    },
+    orders: async (root, args, { db: { collections }}) => {
+      const entries = await collections["order"].find({ where: { session: root.id }})
+      return entries
     }
   }
 }
