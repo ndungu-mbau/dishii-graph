@@ -7,7 +7,7 @@ const { UserError } = require("graphql-errors");
 const create = async (data, { db: { collections }}) => {
   const id = new ObjectId().toHexString();
   const number = random('0', 8)
-  const entry = { id, isDeleted: false, number }
+  const entry = Object.assign(data[name], { id, isDeleted: false, number })
 
   try {
     await collections[name].create(entry)
