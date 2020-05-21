@@ -7,6 +7,7 @@ import meal from "./graphql/resolvers/Mutation/meals/model"
 import instance from "./graphql/resolvers/Mutation/instances/model"
 import order from "./graphql/resolvers/Mutation/orders/model"
 import session from "./graphql/resolvers/Mutation/sessions/model"
+import bill from "./graphql/resolvers/Mutation/bills/model"
 
 const { NODE_ENV, DB_URL } = process.env
 
@@ -17,6 +18,7 @@ waterline.registerModel(meal)
 waterline.registerModel(instance)
 waterline.registerModel(order)
 waterline.registerModel(session)
+waterline.registerModel(bill)
 
 var config = {
   adapters: {

@@ -27,6 +27,12 @@ import {
   nested as Nsession
 } from "./sessions"
 
+import {
+  list as bills,
+  single as bill,
+  nested as Nbill
+} from "./bills"
+
 
 const nested = {};
 
@@ -36,7 +42,8 @@ Object.assign(
   Nmeal,
   Ninstance,
   Norder,
-  Nsession
+  Nsession,
+  Nbill
 )
 
 const Query = {
@@ -55,7 +62,10 @@ const Query = {
   order,
 
   sessions,
-  session
+  session,
+
+  bills,
+  bill
 }
 
 export {

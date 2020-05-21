@@ -633,3 +633,93 @@ describe("Meal Instances", () => {
       })
   })
 })
+
+describe("Bills", () => {
+  it("should make a bill", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($bill: Ibill!){
+          bills{
+            create(bill: $bill){
+              id
+            }
+          }
+        }`,
+        variables: {
+          bill: {
+            session: sharedInfo.sessionId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.bills.create.id).to.be.a("string")
+
+        sharedInfo.billId = res.body.data.bills.create.id
+        done()
+      })
+  })
+
+  it("should archive a bill", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($bill: Ubill!){
+          bills{
+            archive(bill: $bill){
+              id
+            }
+          }
+        }`,
+        variables: {
+          bill: {
+            id: sharedInfo.billId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.bills.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a bill", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($bill: Ubill!){
+          bills{
+            restore(bill: $bill){
+              id
+            }
+          }
+        }`,
+        variables: {
+          bill: {
+            id: sharedInfo.billId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.bills.restore.id).to.be.a("string")
+        
+        done()
+      })
+  })
+})
