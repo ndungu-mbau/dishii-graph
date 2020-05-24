@@ -33,10 +33,10 @@ const nested = {
       const entry = await collections["session"].findOne({ where: { id: root.session }})
       return entry
     },
-    // payment: async (root, args, { db: { collections }}) => {
-    //   const entry = await collections["payment"].findOne({ where: { id: root.payment }})
-    //   return entry
-    // },
+    payment: async (root, args, { db: { collections }}) => {
+      const entry = await collections["payment"].findOne({ where: { bill: root.id }})
+      return entry
+    },
     total: async (root, args, { db: { collections }}) => {
       const session = await collections["session"].findOne({ where: { id: root.session }})
       const orders = await collections["order"].find({ where: { session: session.id}})
