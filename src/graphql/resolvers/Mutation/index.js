@@ -4,6 +4,7 @@ import instances from "./instances"
 import orders from "./orders"
 import sessions from "./sessions"
 import bills from "./bills"
+import payments from "./payments"
 
 export default {
   hello:() => "Hello mutations",
@@ -13,5 +14,6 @@ export default {
   instances,
   orders,
   sessions,
-  bills
+  bills,
+  payments
 }

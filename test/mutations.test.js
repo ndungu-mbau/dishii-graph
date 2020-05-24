@@ -723,3 +723,125 @@ describe("Bills", () => {
       })
   })
 })
+
+describe("Payments", () => {
+  it("should make a payment", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($payment: Ipayment!){
+          payments{
+            create(payment: $payment){
+              id
+            }
+          }
+        }`,
+        variables: {
+          payment: {
+            bill: sharedInfo.billId,
+            method: "dummy payment method",
+            amount: 399.99
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.payments.create.id).to.be.a("string")
+
+        sharedInfo.paymentId = res.body.data.payments.create.id
+        done()
+      })
+  })
+
+  it("should update a payment", done => {
+      chai
+        .request(app)
+        .post("/graph")
+        .set("content-type", "application/json")
+        .send({
+          query: `mutation($payment: Upayment!){
+            payments{
+              update(payment: $payment){
+                id
+              }
+            }
+          }`,
+          variables: {
+            payment: {
+              id: sharedInfo.paymentId,
+              amount: 1500.00,
+            }
+          }
+        })
+        .end((err, res) => {
+          res.should.have.status(200)
+  
+          expect(res.body).to.be.an("object")
+          expect(res.body.data.payments.update.id).to.be.a("string")
+  
+          done()
+        })
+    })
+
+  it("should archive a payment", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($payment: Upayment!){
+          payments{
+            archive(payment: $payment){
+              id
+            }
+          }
+        }`,
+        variables: {
+          payment: {
+            id: sharedInfo.paymentId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.payments.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a payment", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($payment: Upayment!){
+          payments{
+            restore(payment: $payment){
+              id
+            }
+          }
+        }`,
+        variables: {
+          payment: {
+            id: sharedInfo.paymentId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.payments.restore.id).to.be.a("string")
+        
+        done()
+      })
+  })
+})

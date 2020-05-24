@@ -18,6 +18,9 @@ type Query {
 
   bills: [bill]
   bill(bill: Ubill!): bill
+
+  payments: [payment]
+  payment(payment: Upayment!): payment
 }
 
 type Mutation {
@@ -29,6 +32,7 @@ type Mutation {
   orders: orderMutations
   sessions: sessionMutations
   bills: billMutations
+  payments: paymentMutations
 }
 
 # table stuff
@@ -174,7 +178,7 @@ type bill{
   id: String
   session: session
   total: Float
-  # payment: payment
+  payment: payment
 }
 
 input Ibill{
@@ -190,4 +194,33 @@ type billMutations{
   update(bill: Ubill!): bill
   archive(bill: Ubill!): bill
   restore(bill: Ubill!): bill
+}
+
+# payment stuff
+type payment{
+  id: String
+  bill: bill
+  method: String
+  amount: Float
+  balance: Float
+}
+
+input Ipayment{
+  bill: String!
+  method: String!
+  amount: Float!
+}
+
+input Upayment{
+  id: String!
+  bill: String
+  method: String
+  amount: Float
+}
+
+type paymentMutations{
+  create(payment: Ipayment!): payment
+  update(payment: Upayment!): payment
+  archive(payment: Upayment!): payment
+  restore(payment: Upayment!): payment
 }

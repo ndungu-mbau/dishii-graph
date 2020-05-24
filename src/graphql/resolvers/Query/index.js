@@ -33,6 +33,12 @@ import {
   nested as Nbill
 } from "./bills"
 
+import {
+  list as payments,
+  single as payment,
+  nested as Npayment
+} from "./payments"
+
 
 const nested = {};
 
@@ -43,7 +49,8 @@ Object.assign(
   Ninstance,
   Norder,
   Nsession,
-  Nbill
+  Nbill,
+  Npayment
 )
 
 const Query = {
@@ -65,7 +72,10 @@ const Query = {
   session,
 
   bills,
-  bill
+  bill,
+
+  payments,
+  payment
 }
 
 export {
