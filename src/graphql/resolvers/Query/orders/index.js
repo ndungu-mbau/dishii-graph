@@ -33,6 +33,10 @@ const nested = {
       const entries = await collections["instance"].find({ where: { order: root.id }})
       return entries
     },
+    session: async (root, args, { db: { collections }}) => {
+      const entry = await collections["session"].findOne({ where: { id: root.session }})
+      return entry
+    },
     total: async (root, args, { db: { collections }}) => {
       const instances = await collections["instance"].find({ where: { order: root.id }})
       const meals = await Promise.all(instances.map(async ({ meal: id }) => await collections["meal"].findOne({ where: { id }})))
