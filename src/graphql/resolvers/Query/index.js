@@ -4,6 +4,12 @@ import {
 } from "./tables"
 
 import {
+  list as menus,
+  single as menu,
+  nested as Nmenu
+} from "./meals"
+
+import {
   list as meals,
   single as meal,
   nested as Nmeal
@@ -45,6 +51,7 @@ const nested = {};
 Object.assign(
   nested,
 
+  Nmenu,
   Nmeal,
   Ninstance,
   Norder,
@@ -58,6 +65,9 @@ const Query = {
 
   tables,
   table,
+
+  menus,
+  menu,
 
   meals,
   meal,

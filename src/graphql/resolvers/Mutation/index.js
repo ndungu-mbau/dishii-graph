@@ -5,12 +5,14 @@ import orders from "./orders"
 import sessions from "./sessions"
 import bills from "./bills"
 import payments from "./payments"
+import menus from "./menus"
 
 export default {
   hello:() => "Hello mutations",
 
   tables,
   meals,
+  menus,
   instances,
   orders,
   sessions,

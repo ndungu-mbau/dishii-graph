@@ -9,10 +9,6 @@ export default Waterline.Collection.extend({
   attributes: {
     id: { type: "string", required: true },
     name: { type: "string", required: true },
-    menu: { type: "string", required: true },
-    items : { type: "string", required: true },
-    img : { type: "string", required: true },
-    price : { type: "number", required: true },
     isDeleted: { type: "boolean", defaultsTo: false }
   }
 });

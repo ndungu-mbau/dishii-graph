@@ -29,13 +29,10 @@ const single = async (root, args, { db: { collections } }) => {
 
 const nested = {
   [name]: {
-    items: async (root, args, { db: { collections }}) => {
-      return root.items.split(",")
-    },
-    menu: async (root, args, { db: { collections }}) => {
-      const entry = await collections["menu"].findOne({ where: { id: root.menu }})
-      return entry
-    },
+    meals: async (root, args, { db: { collections }}) => {
+      const entries = await collections["meal"].find({ where: { menu: root.id }})
+      return entries
+    }
   }
 }
 

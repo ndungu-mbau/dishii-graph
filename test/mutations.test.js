@@ -179,6 +179,128 @@ describe("Tables", () => {
   })
 })
 
+describe("Menus", () => {
+  it("should make a menu", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($menu: Imenu!){
+          menus{
+            create(menu: $menu){
+              id
+            }
+          }
+        }`,
+        variables: {
+          menu: {
+            name: "KFC",
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        console.log(res.body)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.menus.create.id).to.be.a("string")
+
+        sharedInfo.menuId = res.body.data.menus.create.id
+        done()
+      })
+  })
+
+  it("should update a menu", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($menu: Umenu!){
+          menus{
+            update(menu: $menu){
+              id
+            }
+          }
+        }`,
+        variables: {
+          menu: {
+            id: sharedInfo.menuId,
+            name: "KFC Chicken Buckets",
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.menus.update.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should archive a menu", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($menu: Umenu!){
+          menus{
+            archive(menu: $menu){
+              id
+            }
+          }
+        }`,
+        variables: {
+          menu: {
+            id: sharedInfo.menuId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.menus.archive.id).to.be.a("string")
+
+        done()
+      })
+  })
+
+  it("should restore a menu", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($menu: Umenu!){
+          menus{
+            restore(menu: $menu){
+              id
+            }
+          }
+        }`,
+        variables: {
+          menu: {
+            id: sharedInfo.menuId
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.menus.restore.id).to.be.a("string")
+        
+        done()
+      })
+  })
+})
+
 describe("Meals", () => {
   it("should make a meal", done => {
     chai
@@ -196,6 +318,7 @@ describe("Meals", () => {
         variables: {
           meal: {
             name: "KFC Streetwise 1",
+            menu: sharedInfo.menuId,
             items: ["Spicy fried chicken", "French fries side"],
             img: "http://localhost/images/kfc-streetwise-1.png",
             price: 399.00
