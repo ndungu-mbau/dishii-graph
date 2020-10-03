@@ -153,9 +153,17 @@ type instanceMutations{
 }
 
 # order stuff
+enum orderStatus{
+  NEW
+  PENDING
+  PROCESSING
+  DELIVERED
+}
+
 type order{
   id: String
   number: Int
+  status: orderStatus
   meals: [instance]
   session: session
   total: Float
@@ -163,15 +171,18 @@ type order{
 
 input Iorder{
   session: String!
+  status: orderStatus!
 }
 
 input Uorder{
   id: String!
   session: String
+  status: orderStatus
 }
 
 type orderMutations{
   create(order: Iorder!): order
+  update(order: Uorder!): order
   archive(order: Uorder!): order
   restore(order: Uorder!): order
 }

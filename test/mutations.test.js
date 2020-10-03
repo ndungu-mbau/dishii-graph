@@ -546,7 +546,7 @@ describe("Sessions", () => {
 })
 
 describe("Orders", () => {
-  it("should make a order", done => {
+  it("should make an order", done => {
     chai
       .request(app)
       .post("/graph")
@@ -561,7 +561,8 @@ describe("Orders", () => {
         }`,
         variables: {
           order: {
-            session: sharedInfo.sessionId
+            session: sharedInfo.sessionId,
+            status: "NEW",
           }
         }
       })
@@ -576,7 +577,36 @@ describe("Orders", () => {
       })
   })
 
-  it("should archive a order", done => {
+  it("should update an order", done => {
+    chai
+      .request(app)
+      .post("/graph")
+      .set("content-type", "application/json")
+      .send({
+        query: `mutation($order: Uorder!){
+          orders{
+            update(order: $order){
+              id
+            }
+          }
+        }`,
+        variables: {
+          order: {
+            id: sharedInfo.orderId,
+            status: "PENDING",
+          }
+        }
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+
+        expect(res.body).to.be.an("object")
+        expect(res.body.data.orders.update.id).to.be.a("string")
+        done()
+      })
+  })
+
+  it("should archive an order", done => {
     chai
       .request(app)
       .post("/graph")
@@ -605,7 +635,7 @@ describe("Orders", () => {
       })
   })
 
-  it("should restore a order", done => {
+  it("should restore an order", done => {
     chai
       .request(app)
       .post("/graph")
