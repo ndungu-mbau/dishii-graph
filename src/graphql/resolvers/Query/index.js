@@ -7,7 +7,7 @@ import {
   list as menus,
   single as menu,
   nested as Nmenu
-} from "./meals"
+} from "./menus"
 
 import {
   list as meals,
@@ -44,7 +44,6 @@ import {
   single as payment,
   nested as Npayment
 } from "./payments"
-
 
 const nested = {};
 
