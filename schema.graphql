@@ -97,6 +97,7 @@ type menuMutations{
 type meal{
   id: String
   name: String
+  description: String
   menu: menu
   items: [String]
   img: String
@@ -105,6 +106,7 @@ type meal{
 
 input Imeal{
   name: String!
+  description: String!
   menu: String!
   items: [String]!
   img: String!
@@ -114,6 +116,7 @@ input Imeal{
 input Umeal{
   id: String!
   name: String
+  description: String
   menu: String
   items: [String]
   img: String

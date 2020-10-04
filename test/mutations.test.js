@@ -319,6 +319,7 @@ describe("Meals", () => {
         variables: {
           meal: {
             name: "KFC Streetwise 1",
+            description: "Bite into this amazing delicacy of crunchy, spicy fried chicken.",
             menu: sharedInfo.menuId,
             items: ["Spicy fried chicken", "French fries side"],
             img: "http://via.placeholder.com/300.png?text=KFC+Streetwise+One",
