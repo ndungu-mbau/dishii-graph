@@ -196,6 +196,7 @@ describe("Menus", () => {
         variables: {
           menu: {
             name: "KFC",
+            image: "http://via.placeholder.com/300.png?text=KFC+Buckets"
           }
         }
       })
@@ -320,7 +321,7 @@ describe("Meals", () => {
             name: "KFC Streetwise 1",
             menu: sharedInfo.menuId,
             items: ["Spicy fried chicken", "French fries side"],
-            img: "http://localhost/images/kfc-streetwise-1.png",
+            img: "http://via.placeholder.com/300.png?text=KFC+Streetwise+One",
             price: 399.00
           }
         }

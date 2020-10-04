@@ -71,15 +71,18 @@ type tableMutations{
 type menu{
   id: String
   name: String
+  image: String
   meals: [meal]
 }
 
 input Imenu{
   name: String!
+  image: String!
 }
 
 input Umenu{
   id: String!
+  image: String
   name: String
 }
 

@@ -9,6 +9,7 @@ export default Waterline.Collection.extend({
   attributes: {
     id: { type: "string", required: true },
     name: { type: "string", required: true },
+    image: { type: "string", required: true },
     isDeleted: { type: "boolean", defaultsTo: false }
   }
 });
