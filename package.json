@@ -36,7 +36,7 @@
     "randomatic": "^3.1.1",
     "rimraf": "^2.6.3",
     "sails-disk": "^1.1.2",
-    "sails-mongo": "https://github.com/luislobo/sails-mongo#upgrade-mongodb-drivers",
+    "sails-mongo": "^1.2.0",
     "sha1": "^1.1.1",
     "source-map-support": "^0.5.13",
     "uuidv4": "^4.0.0",

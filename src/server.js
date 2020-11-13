@@ -8,7 +8,7 @@ import multer from "multer"
 import graphRouter from "./index"
 import storage from "./storage"
 
-const { NODE_ENV, PORT = 3000 } = process.env
+const { NODE_ENV, PORT = 4000 } = process.env
 
 const upload = multer({
   storage: multer.diskStorage({
